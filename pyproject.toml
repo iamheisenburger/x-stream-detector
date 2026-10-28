@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x-stream-detector"
+version = "1.0.0"
+description = "Detect new posts from chosen X accounts within seconds, through X's official filtered stream."
+requires-python = ">=3.10"
+dependencies = ["httpx>=0.27"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+xstream = "xstream.__main__:main"
+
+[tool.setuptools]
+packages = ["xstream"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

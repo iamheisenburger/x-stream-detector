@@ -1,0 +1,17 @@
+# sudo cp deploy/x-stream-detector.service /etc/systemd/system/
+# sudo systemctl daemon-reload && sudo systemctl enable --now x-stream-detector
+[Unit]
+Description=X stream detector (official filtered stream)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/x-stream-detector
+EnvironmentFile=/opt/x-stream-detector/.env
+ExecStart=/opt/x-stream-detector/.venv/bin/python -m xstream --config config.json
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target

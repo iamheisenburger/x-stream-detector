@@ -1,0 +1,22 @@
+{
+  "_comment": "Copy to config.json. Secrets go in the environment (see .env.example), never here.",
+  "handles": ["XDevelopers", "XData"],
+  "keywords": ["api", "stream", "developer", "pricing", "launch"],
+  "extra_rules": [],
+  "rule_namespace": "xsd",
+  "lang": "en",
+  "include_replies": false,
+  "active_hours_utc": [12, 23],
+  "ledger_path": "reads.db",
+  "budget": {
+    "post_read_usd": 0.005,
+    "daily_cap_usd": 0.45,
+    "monthly_cap_usd": 15.0,
+    "pricing_valid_through": "2026-12-31"
+  },
+  "output": {
+    "jsonl_path": "posts.jsonl",
+    "webhook_url": "",
+    "telegram": false
+  }
+}

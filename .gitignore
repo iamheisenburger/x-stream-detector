@@ -1,0 +1,10 @@
+.env
+config.json
+*.db
+*.db-*
+posts.jsonl
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
