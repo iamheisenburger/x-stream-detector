@@ -217,7 +217,7 @@
     "observe_only": false,
     "capture_posts_path": "research/output/stream-posts.jsonl",
     "observe_only_until_iso": "2026-09-26T01:30:00+00:00",
-    "phone_push_topic": "pentra-drafts-b340c1338c5014db497e",
+    "phone_push_topic": "pentra-drafts-<your-private-topic>",
     "shift_hours_utc": [
       12,
       23
@@ -238,14 +238,14 @@
     "min_sample_posts": 3
   },
   "artifacts": {
-    "ntfy_topic": "pentra-artifacts-6a52f8fff8c51833ace85877"
+    "ntfy_topic": "pentra-artifacts-<your-private-topic>"
   },
   "grok": {
     "ntfy_topic": "pentra-grok-<your-private-topic>"
   },
   "leads": {
     "enabled": true,
-    "ntfy_topic": "pentra-leads-915dea93d17d92a72849184f"
+    "ntfy_topic": "pentra-leads-<your-private-topic>"
   },
   "reply_prompt_version": "v7",
   "post_prompt_version": "v4",
