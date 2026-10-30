@@ -3,7 +3,9 @@
 Detects new posts from the X accounts you choose, about 5 seconds after they go live. It uses X's official
 filtered stream (`/2/tweets/search/stream`): X pushes each matching post to you, so there's no polling.
 
-It came out of Pentra's reply system (@pentradev), which ran it in production from September to October 2026.
+It came out of Pentra's reply system (@pentradev), which ran it in production from September to October 2026. That
+whole system is in this repo too, in [`reply-system/`](reply-system/): reply drafts sent to Telegram, plus
+scheduled original posts. See [the section below](#the-full-reply-and-posts-system-reply-system).
 
 ## Measured in production
 
@@ -25,7 +27,7 @@ Cost: about 40 matching posts a day at $0.005 each, so **about $0.20 a day** (ab
 | Filtering | Keywords run on X's side, so off-topic posts are never delivered or billed. The same budget covers more creators, which means more reply candidates. | You download everything and filter it yourself |
 | Account risk | None. App-only auth; it never touches a logged-in X account. | Cookie-based setups (`ct0` / `auth_token`) drive a logged-in account from a script. That's what gets accounts labeled or suspended. |
 
-It doesn't post. Each alert carries a reply link (`x.com/intent/post?in_reply_to=…`) that opens X's composer, and a
+The detector itself doesn't post. Each alert carries a reply link (`x.com/intent/post?in_reply_to=…`) that opens X's composer, and a
 person reviews and presses Post. X's API refuses automated unsummoned replies, and AI reply bots need X's written
 approval.
 
@@ -120,3 +122,41 @@ previews X attached), `media_context` (alt text) and `matching_rule_tags`.
 ```bash
 .venv/bin/python -m pytest -q
 ```
+
+## The full reply and posts system (`reply-system/`)
+
+This is the production @pentradev system the detector came from. It runs as two services on one server.
+
+**Replies** (`bot/replies_daemon.py`):
+1. Watches the target creators through the official filtered stream (`bot/x_stream.py`).
+2. Drops posts it shouldn't answer (`bot/skipgate.py`).
+3. Writes one reply in the account's voice. The voice and the review rules are in `bot/generate.py` and
+   `bot/stances.py`, and `REPLY-GUY-FORMULA.md` explains them.
+4. Sends the draft to Telegram with a one-tap reply link, a median of 11 s after the creator posted. A person
+   reviews it and presses Post.
+
+**Posts** (`bot/posts_daemon.py`):
+- Up to 2 original posts a day through the X API (`bot/poster.py`), following a 32-entry plan of sourced formats
+  (`bot/post_cards.py`).
+- At most 1 news post a day, written from Google Search Central's blog and status dashboard (`bot/news.py`).
+
+**Everything else:**
+- Budgets for X reads, writes and model calls: `bot/x_read_budget.py`, `bot/llm_budget.py`, `bot/costguard.py`.
+- State in SQLite: `bot/state.py`.
+- Timers for the daily summary, reply tracking and target selection: `scripts/`.
+- systemd units: `deploy/`.
+- Live settings, including the target creators: `config.json`.
+- 443 tests: `tests/`.
+
+```bash
+cd reply-system && python3 -m pytest -q
+```
+
+Start with `reply-system/README.md` and `reply-system/OPERATIONS.md`.
+
+**Not in this public copy:**
+- Keys never leave the owner's machine; the names are in `reply-system/.env.example`.
+- The server address and SSH key path are placeholders. The deploy script reads them from `PENTRA_X_HOST` and
+  `PENTRA_X_SSH_KEY`.
+- The private ntfy topic is a placeholder.
+- The research data under `research/` holds other people's bios and posts, so it stays private.

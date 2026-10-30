@@ -1,0 +1,8 @@
+[Unit]
+Description=Pentra X replies: morning Telegram summary
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/opt/pentra-x
+ExecStart=/opt/pentra-x/venv/bin/python -m scripts.daily_summary

@@ -1,0 +1,18 @@
+[Unit]
+Description=Pentra X original posts (Telegram drafts a person posts; API publishing only with owner authorization)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/pentra-x
+ExecStart=/opt/pentra-x/venv/bin/python -m bot.posts_daemon
+Restart=on-failure
+RestartSec=15
+RestartPreventExitStatus=78
+StandardOutput=append:/opt/pentra-x/posts.log
+StandardError=append:/opt/pentra-x/posts.log
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Check Grok's lead topic every 10 minutes
+
+[Timer]
+OnCalendar=*:0/10
+Persistent=false
+Unit=pentra-x-leads.service
+
+[Install]
+WantedBy=timers.target

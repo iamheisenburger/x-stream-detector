@@ -1,0 +1,12 @@
+[Unit]
+Description=Pentra X leads: draft replies to Grok's warm leads for a person to send
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/opt/pentra-x
+ExecStart=/opt/pentra-x/venv/bin/python -m scripts.process_leads
+StandardOutput=append:/opt/pentra-x/leads.log
+StandardError=append:/opt/pentra-x/leads.log

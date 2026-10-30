@@ -1,0 +1,44 @@
+# Allowlist: only the system's code, config, service files, research inputs and docs
+# are tracked. Everything else in this folder (keys, state, logs, backups, phone
+# logs, PAUSED) stays local.
+/*
+!/.gitignore
+!/.env.example
+!/README.md
+!/bot/
+!/scripts/
+!/tests/
+!/deploy/
+!/research/
+!/config.json
+!/requirements.txt
+!/requirements-dev.txt
+!/OPERATIONS.md
+!/REPLY-GUY-FORMULA.md
+!/X-VISION-CHECKLIST.md
+!/CRON-PROMPTS.md
+!/HANDOFF-2026-10-19.md
+!/OVERNIGHT-LOG.md
+!/Deploy Pentra to server.command
+!/Set Pentra keys.command
+
+# Never tracked, even inside allowed folders.
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+.session.json
+.session-*.json
+state.db
+state.db-*
+*.log
+dist/
+research/output/
+keys.env
+keys-status.txt
+deploy.log

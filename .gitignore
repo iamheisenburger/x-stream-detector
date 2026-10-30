@@ -1,8 +1,9 @@
 .env
-config.json
+keys.env
+/config.json
 *.db
 *.db-*
-posts.jsonl
+/posts.jsonl
 __pycache__/
 *.pyc
 .pytest_cache/
